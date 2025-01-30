@@ -4,8 +4,7 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                git 'https://github.com/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME.git'
-            }
+                git 'https://github.com/sushma-sm/DEMO.git
         }
 
         stage('Build') {
