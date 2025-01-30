@@ -16,10 +16,5 @@ pipeline {
                 sh 'echo "Deploying to server"'
             }
         }
-        stage('Archive Artifacts') {
-            steps {
-                archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
-            }
-        }
     }
 }
