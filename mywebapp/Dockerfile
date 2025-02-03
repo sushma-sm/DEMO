@@ -16,7 +16,8 @@ WORKDIR /opt/tomcat
 # Expose the port Tomcat will run on
 EXPOSE 8080
 
+#copy war file
+COPY ./mywebapp.war/ opt/tomcat/webapps
+
 # Start Tomcat
 CMD ["./bin/catalina.sh", "run"]
-
-

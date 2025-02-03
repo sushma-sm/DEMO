@@ -1,0 +1,24 @@
+#surefire
+#Mon Feb 03 10:59:28 UTC 2025
+testSuiteDefinitionTestSourceDirectory=/home/gurajasushmamounika/DEMO/src/test/java
+includes1=**/*Test.java
+includes2=**/*TestCase.java
+runOrder=filesystem
+runStatisticsFile=/home/gurajasushmamounika/DEMO/.surefire-BE1C5A9828856E7FF87D2D7717BE13262DF79694
+includes0=**/Test*.java
+reportsDirectory=/home/gurajasushmamounika/DEMO/target/surefire-reports
+tc.0=com.example.AppTest
+surefireClassPathUrl.0=/home/gurajasushmamounika/.m2/repository/org/apache/maven/surefire/surefire-junit3/2.12.4/surefire-junit3-2.12.4.jar
+classPathUrl.0=/home/gurajasushmamounika/DEMO/target/test-classes
+providerConfiguration=org.apache.maven.surefire.junit.JUnit3Provider
+classPathUrl.1=/home/gurajasushmamounika/DEMO/target/classes
+failIfNoTests=false
+classPathUrl.2=/home/gurajasushmamounika/.m2/repository/junit/junit/3.8.1/junit-3.8.1.jar
+testClassesDirectory=/home/gurajasushmamounika/DEMO/target/test-classes
+isTrimStackTrace=true
+surefireClassPathUrl.1=/home/gurajasushmamounika/.m2/repository/org/apache/maven/surefire/surefire-api/2.12.4/surefire-api-2.12.4.jar
+excludes0=**/*$*
+enableAssertions=true
+childDelegation=false
+useManifestOnlyJar=true
+useSystemClassLoader=true
