@@ -147,3 +147,5 @@ The Docker image is pushed to the following Docker Hub repository:
 
 Once the Docker container is running, you can access the application by navigating to `http://<your-server-ip>:8082` in your web browser.
 
+**License**
+This project is licensed under the MIT License - see the LICENSE file for details.
