@@ -1,14 +1,22 @@
-# Use an official OpenJDK image
-FROM openjdk:17-jdk-slim  
+FROM debian:11
 
-# Set the working directory
-WORKDIR /app  
+# Install Java (openjdk-11)
+RUN apt-get update && apt-get install -y openjdk-11-jdk
 
-# Copy the built JAR file
-COPY target/myapp.jar app.jar  
+# Download and extract Tomcat
+ADD https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.98/bin/apache-tomcat-9.0.98.tar.gz /opt/
 
-# Expose the application port
-EXPOSE 8080  
+# Extract Tomcat archive manually (if ADD does not extract it)
+RUN tar -xvzf /opt/apache-tomcat-9.0.98.tar.gz -C /opt/ && \
+    mv /opt/apache-tomcat-9.0.98 /opt/tomcat
 
-# Run the application
-CMD ["java", "-jar", "app.jar"]  
+# Set working directory
+WORKDIR /opt/tomcat
+
+# Expose the port Tomcat will run on
+EXPOSE 8080
+
+# Start Tomcat
+CMD ["./bin/catalina.sh", "run"]
+
+
