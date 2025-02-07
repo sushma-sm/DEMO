@@ -4,7 +4,7 @@ WORKDIR /app
 COPY pom.xml .
 COPY src ./src
 RUN mvn clean package -DskipTests
-Expose 8080
+EXPOSE 8080
 # Runtime stage
 FROM eclipse-temurin:17-jre-jammy
 WORKDIR /app
