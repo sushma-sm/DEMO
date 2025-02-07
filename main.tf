@@ -4,6 +4,6 @@ provider "google" {
 }
 
 resource "google_storage_bucket" "my_bucket" {
-  name     = "my-terraform-bucket-sp1"
+  name     = "my-terraform-bucket-sp2"
   location = "US"
 }
