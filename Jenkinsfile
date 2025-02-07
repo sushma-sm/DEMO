@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         REPO_URL = 'https://github.com/sushma-sm/DEMO.git'
-        DOCKER_IMAGE = 'sushmamounika/my-repo-sm:latest'  // Docker image in Docker Hub
+        DOCKER_IMAGE = 'sushmamounika/my-repo-sm:build-001'  // Docker image in Docker Hub
     }
     stages {
         stage('Clone Repository') {
