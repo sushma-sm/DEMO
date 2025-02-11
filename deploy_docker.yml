@@ -1,4 +1,3 @@
----
 - name: Deploy Dockerized Application
   hosts: localhost
   become: yes
@@ -15,14 +14,22 @@
         state: started
         enabled: yes
 
-    - name: Pull Docker image
-      command: docker pull {{ docker_image }}
-
     - name: Stop and remove existing container (if running)
       shell: |
         docker stop demo-app || true
         docker rm demo-app || true
       ignore_errors: yes
 
+    - name: Pull Docker image
+      command: docker pull {{ docker_image }}
+
     - name: Run Docker container
       command: docker run -d --name demo-app -p 8082:8080 {{ docker_image }}
+
+    - name: Verify the container is running
+      shell: docker ps | grep demo-app
+      register: container_status
+
+    - name: Display container status
+      debug:
+        msg: "Docker container 'demo-app' status: {{ container_status.stdout_lines }}"
