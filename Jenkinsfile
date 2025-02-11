@@ -62,5 +62,13 @@ pipeline {
                 sh 'docker run -d -p 8082:8080 ${DOCKER_IMAGE}'
             }
         }
+        stage('Run Ansible Playbook') {
+            steps {
+                script {
+                    sh """
+                        ansible-playbook deploy_docker.yml -e "docker_image=${DOCKER_IMAGE}"
+                    """
+                }
+            }
     }
 }
