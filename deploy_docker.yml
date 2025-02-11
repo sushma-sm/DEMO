@@ -1,0 +1,28 @@
+---
+- name: Deploy Dockerized Application
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: Ensure Docker is installed
+      apt:
+        name: docker.io
+        state: present
+        update_cache: yes
+
+    - name: Ensure Docker service is running
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Pull Docker image
+      command: docker pull {{ docker_image }}
+
+    - name: Stop and remove existing container (if running)
+      shell: |
+        docker stop demo-app || true
+        docker rm demo-app || true
+      ignore_errors: yes
+
+    - name: Run Docker container
+      command: docker run -d --name demo-app -p 8082:8080 {{ docker_image }}
