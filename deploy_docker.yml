@@ -14,8 +14,8 @@
         state: started
         enabled: yes
 
-    - name: Docker login
-      command: docker login -u {{ docker_username }} -p {{ docker_password }}
+    - name: Log in to Docker Hub
+      shell: echo "{{ docker_password }}" | docker login -u "{{ docker_username }}" --password-stdin
       register: docker_login_result
       failed_when: docker_login_result.rc != 0
       no_log: true  # Hide the output to avoid showing sensitive information
@@ -27,10 +27,10 @@
       ignore_errors: yes
 
     - name: Pull Docker image
-      command: docker pull {{ docker_image }}
+      shell: docker pull {{ docker_image }}
 
     - name: Run Docker container
-      command: docker run -d --name demo-app -p 8083:8080 {{ docker_image }}
+      shell: docker run -d --name demo-app -p 8083:8080 {{ docker_image }}
 
     - name: Verify the container is running
       shell: docker ps | grep demo-app
