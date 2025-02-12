@@ -20,6 +20,16 @@
       failed_when: docker_login_result.rc != 0
       no_log: true  # Hide the output to avoid showing sensitive information
 
+    - name: Check if port 8083 is in use
+      shell: lsof -i :8083
+      register: port_check
+      failed_when: false
+
+    - name: Kill the process using port 8083 (if any)
+      shell: "kill -9 $(lsof -ti :8083)"
+      when: port_check.stdout != ""
+      ignore_errors: yes
+
     - name: Stop and remove existing container (if running)
       shell: |
         docker stop demo-app || true
