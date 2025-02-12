@@ -1,57 +1,68 @@
 - name: Deploy Dockerized Application
   hosts: localhost
-  become: yes
+  become: yes  # Run tasks with elevated privileges
   tasks:
+    # Ensure Docker is installed on the host
     - name: Ensure Docker is installed
       apt:
         name: docker.io
-        state: present
-        update_cache: yes
+        state: present  # Make sure Docker is installed
+        update_cache: yes  # Update package cache before installation
 
+    # Ensure the Docker service is running and enabled to start on boot
     - name: Ensure Docker service is running
       service:
         name: docker
-        state: started
-        enabled: yes
+        state: started  # Start the Docker service if it's not running
+        enabled: yes  # Enable Docker to start at boot
 
+    # Log in to Docker Hub using provided credentials
     - name: Log in to Docker Hub
       shell: |
         echo "{{ docker_password | quote }}" | docker login -u "{{ docker_username | quote }}" --password-stdin
-      register: docker_login_result
-      failed_when: docker_login_result.rc != 0
-      no_log: true  # Hide sensitive output
+      register: docker_login_result  # Save the result of the login command
+      failed_when: docker_login_result.rc != 0  # Fail the task if login fails
+      no_log: true  # Hide sensitive information from output (like passwords)
 
+    # Check if port 8083 is in use by any process
     - name: Check if port 8083 is in use
-      shell: lsof -i :8083
-      register: port_check
-      failed_when: false  # Do not fail if no process is found on the port
+      shell: lsof -i :8083  # List open files on port 8083
+      register: port_check  # Save the result
+      failed_when: false  # Do not fail if no process is found
 
+    # Kill the process using port 8083 if it exists
     - name: Kill the process using port 8083 (if any)
-      shell: "kill -9 $(lsof -ti :8083)"
-      when: port_check.stdout != ""
-      ignore_errors: yes
+      shell: "kill -9 $(lsof -ti :8083)"  # Forcefully kill the process on port 8083
+      when: port_check.stdout != ""  # Only run if the port is in use
+      ignore_errors: yes  # Ignore errors if no process is found
 
+    # Pause for 3 seconds to ensure the port is fully released
     - name: Wait for 3 seconds to ensure port is released
       pause:
         seconds: 3
 
+    # Stop and remove the existing Docker container if it is running
     - name: Stop and remove existing container (if running)
       shell: |
-        docker stop demo-app || true
-        docker rm demo-app || true
-      ignore_errors: yes
+        docker stop demo-app || true  # Stop the container if it exists
+        docker rm demo-app || true  # Remove the container if it exists
+      ignore_errors: yes  # Ignore errors if the container is not found
 
+    # Pull the latest Docker image from Docker Hub
     - name: Pull Docker image
-      shell: docker pull {{ docker_image }}
+      shell: docker pull {{ docker_image }}  # Pull the specified Docker image
 
+    # Run a new Docker container with the specified image
     - name: Run Docker container
-      shell: docker run -d --name demo-app -p 8083:8080 {{ docker_image }}
+      shell: docker run -d --name demo-app -p 8083:8080 {{ docker_image }}  # Run the container in detached mode
 
+    # Verify that the Docker container is running
     - name: Verify the container is running
-      shell: docker ps | grep demo-app
-      register: container_status
-      failed_when: container_status.rc != 0
+      shell: docker ps | grep demo-app  # Check if the container is listed in running containers
+      register: container_status  # Save the result
+      failed_when: container_status.rc != 0  # Fail if the container is not found running
 
+    # Display the status of the running Docker container
     - name: Display container status
       debug:
-        msg: "Docker container 'demo-app' is running. Status:\n{{ container_status.stdout_lines }}"
+        msg: "Docker container 'demo-app' is running. Status:\n{{ container_status.stdout_lines }}"  # Print the container's status
