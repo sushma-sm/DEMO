@@ -14,6 +14,12 @@
         state: started
         enabled: yes
 
+    - name: Docker login
+      command: docker login -u {{ docker_username }} -p {{ docker_password }}
+      register: docker_login_result
+      failed_when: docker_login_result.rc != 0
+      no_log: true  # Hide the output to avoid showing sensitive information
+
     - name: Stop and remove existing container (if running)
       shell: |
         docker stop demo-app || true
