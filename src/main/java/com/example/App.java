@@ -16,6 +16,7 @@ public class App {
 class HelloWorldController {
     @GetMapping("/")
     public String hello() {
-        return "Hello World!";
+        return "Hi Sushma! Your Dockerized container is up and running.\nThis project follows an end-to-end pipeline with Git, Docker, Ansible, and Terraform.";
     }
 }
+
