@@ -15,10 +15,12 @@
         enabled: yes
 
     - name: Log in to Docker Hub
-      shell: echo "{{ docker_password }}" | docker login -u "{{ docker_username }}" --password-stdin
+      shell: |
+      echo "{{ docker_password | quote }}" | docker login -u "{{ docker_username | quote }}" --password-stdin
       register: docker_login_result
       failed_when: docker_login_result.rc != 0
-      no_log: true  # Hide the output to avoid showing sensitive information
+      no_log: true
+
 
     - name: Check if port 8083 is in use
       shell: lsof -i :8083
