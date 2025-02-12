@@ -24,7 +24,7 @@
       command: docker pull {{ docker_image }}
 
     - name: Run Docker container
-      command: docker run -d --name demo-app -p 8082:8080 {{ docker_image }}
+      command: docker run -d --name demo-app -p 8083:8080 {{ docker_image }}
 
     - name: Verify the container is running
       shell: docker ps | grep demo-app
