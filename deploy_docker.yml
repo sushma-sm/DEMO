@@ -29,7 +29,7 @@
       shell: |
         docker build -t {{ docker_image }} .
       args:
-        chdir: /path/to/your/dockerfile  # Replace with the correct path where your Dockerfile is located
+        chdir: /home/gurajasushmamounika/DEMO
 
     # Push the Docker image to Docker Hub
     - name: Push Docker image to Docker Hub
