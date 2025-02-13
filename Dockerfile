@@ -1,4 +1,4 @@
-# Build stage: Use Maven with OpenJDK 17 to build the application
+# Build stage: Use Maven with OpenJDK 17 to build the application and package it into a jar
 FROM maven:3.8.4-openjdk-17 AS build
 
 # Set the working directory inside the container for the build process
