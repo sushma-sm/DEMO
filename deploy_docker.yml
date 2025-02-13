@@ -1,6 +1,9 @@
 - name: Deploy Dockerized Application
   hosts: localhost
   become: yes
+  vars:
+    timestamp: "{{ lookup('pipe', 'date +%Y%m%d%H%M%S') }}"  # Generate a timestamp for tagging
+    docker_image_tagged: "{{ docker_image }}:{{ timestamp }}"  # Image with a unique tag
   tasks:
     # Ensure Docker is installed
     - name: Ensure Docker is installed
@@ -22,18 +25,18 @@
         echo "{{ docker_password | quote }}" | docker login -u "{{ docker_username | quote }}" --password-stdin
       register: docker_login_result
       failed_when: docker_login_result.rc != 0
-      no_log: true  # Hide sensitive info
+      no_log: true
 
-    # Build the Docker image
-    - name: Build Docker image
+    # Build the Docker image with a unique tag
+    - name: Build Docker image with unique tag
       shell: |
-        docker build -t {{ docker_image }} .
+        docker build -t {{ docker_image_tagged }} .
       args:
         chdir: /home/gurajasushmamounika/DEMO 
 
     # Push the Docker image to Docker Hub
     - name: Push Docker image to Docker Hub
-      shell: docker push {{ docker_image }}
+      shell: docker push {{ docker_image_tagged }}
 
     # Check if port 8083 is in use
     - name: Check if port 8083 is in use
@@ -59,13 +62,13 @@
         docker rm demo-app || true
       ignore_errors: yes
 
-    # Pull the latest Docker image from Docker Hub (freshly pushed image)
+    # Pull the latest Docker image with the unique tag (just pushed)
     - name: Pull Docker image
-      shell: docker pull {{ docker_image }}
+      shell: docker pull {{ docker_image_tagged }}
 
-    # Run the new Docker container
+    # Run the new Docker container with the unique tag
     - name: Run Docker container
-      shell: docker run -d --name demo-app -p 8083:8080 {{ docker_image }}
+      shell: docker run -d --name demo-app -p 8083:8080 {{ docker_image_tagged }}
 
     # Verify that the Docker container is running
     - name: Verify the container is running
@@ -76,4 +79,4 @@
     # Display the status of the running Docker container
     - name: Display container status
       debug:
-        msg: "Docker container 'demo-app' is running. Status:\n{{ container_status.stdout_lines }}"
+        msg: "Docker container 'demo-app' is running with image {{ docker_image_tagged }}. Status:\n{{ container_status.stdout_lines }}"
