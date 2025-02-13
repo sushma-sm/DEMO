@@ -28,9 +28,8 @@
       no_log: true
 
     # Build the Docker image with a unique tag
-    - name: Build Docker image with unique tag
-      shell: |
-        docker build -t {{ docker_image_tagged }} .
+    - name: Build Docker image with a unique tag
+      shell: docker build -t {{ docker_image_tagged }} .
       args:
         chdir: /home/gurajasushmamounika/DEMO 
 
@@ -50,8 +49,8 @@
       when: port_check.stdout != ""
       ignore_errors: yes
 
-    # Pause for 3 seconds
-    - name: Wait for 3 seconds to ensure port is released
+    # Wait for 3 seconds to ensure the port is released
+    - name: Wait for 3 seconds
       pause:
         seconds: 3
 
@@ -79,4 +78,4 @@
     # Display the status of the running Docker container
     - name: Display container status
       debug:
-        msg: "Docker container 'demo-app' is running with image {{ docker_image_tagged }}. Status:\n{{ container_status.stdout_lines }}"
+        msg: "Docker container 'demo-app' is running with image {{ docker_image_tagged }}. Status:\n{{ container_status.stdout_lines | join('\n') }}"
