@@ -1,9 +1,6 @@
 - name: Deploy Dockerized Application
   hosts: localhost
   become: yes
-  vars:
-    timestamp: "{{ lookup('pipe', 'date +%Y%m%d%H%M%S') }}"  # Generate a timestamp for tagging
-    docker_image_tagged: "{{ docker_image }}:{{ timestamp }}"  # Image with a unique tag
   tasks:
     # Ensure Docker is installed
     - name: Ensure Docker is installed
@@ -25,17 +22,18 @@
         echo "{{ docker_password | quote }}" | docker login -u "{{ docker_username | quote }}" --password-stdin
       register: docker_login_result
       failed_when: docker_login_result.rc != 0
-      no_log: true
+      no_log: true  # Hide sensitive info
 
-    # Build the Docker image with a unique tag
-    - name: Build Docker image with a unique tag
-      shell: docker build -t {{ docker_image_tagged }} .
+    # Build the Docker image
+    - name: Build Docker image
+      shell: |
+        docker build -t {{ docker_image }} .
       args:
-        chdir: /home/gurajasushmamounika/DEMO 
+        chdir: /path/to/your/dockerfile  # Replace with the correct path where your Dockerfile is located
 
     # Push the Docker image to Docker Hub
     - name: Push Docker image to Docker Hub
-      shell: docker push {{ docker_image_tagged }}
+      shell: docker push {{ docker_image }}
 
     # Check if port 8083 is in use
     - name: Check if port 8083 is in use
@@ -49,8 +47,8 @@
       when: port_check.stdout != ""
       ignore_errors: yes
 
-    # Wait for 3 seconds to ensure the port is released
-    - name: Wait for 3 seconds
+    # Pause for 3 seconds
+    - name: Wait for 3 seconds to ensure port is released
       pause:
         seconds: 3
 
@@ -61,13 +59,13 @@
         docker rm demo-app || true
       ignore_errors: yes
 
-    # Pull the latest Docker image with the unique tag (just pushed)
+    # Pull the latest Docker image from Docker Hub (freshly pushed image)
     - name: Pull Docker image
-      shell: docker pull {{ docker_image_tagged }}
+      shell: docker pull {{ docker_image }}
 
-    # Run the new Docker container with the unique tag
+    # Run the new Docker container
     - name: Run Docker container
-      shell: docker run -d --name demo-app -p 8083:8080 {{ docker_image_tagged }}
+      shell: docker run -d --name demo-app -p 8083:8080 {{ docker_image }}
 
     # Verify that the Docker container is running
     - name: Verify the container is running
@@ -78,4 +76,4 @@
     # Display the status of the running Docker container
     - name: Display container status
       debug:
-        msg: "Docker container 'demo-app' is running with image {{ docker_image_tagged }}. Status:\n{{ container_status.stdout_lines | join('\n') }}"
+        msg: "Docker container 'demo-app' is running. Status:\n{{ container_status.stdout_lines }}"
