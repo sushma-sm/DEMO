@@ -5,7 +5,7 @@ provider "google" {
 
 # Generate a random ID to append to the bucket name
 resource "random_id" "bucket_suffix" {
-  byte_length = 6
+  byte_length = 7
 }
 
 resource "google_storage_bucket" "my_bucket" {
