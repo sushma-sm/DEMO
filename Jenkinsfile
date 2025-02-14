@@ -3,6 +3,7 @@ pipeline {
     environment {
         REPO_URL = 'https://github.com/sushma-sm/DEMO.git'
         DOCKER_IMAGE = 'sushmamounika/my-repo-sm:build-001'
+        MAVEN_SETTINGS = '/var/jenkins_home/.m2/settings.xml' // Adjust to your Jenkins location
     }
     stages {
         stage('Clone Repository') {
@@ -10,9 +11,9 @@ pipeline {
                 git branch: 'main', url: "${REPO_URL}"
             }
         }
-        stage('Build Maven Project') {
+        stage('Build and Deploy to Nexus') {
             steps {
-                sh 'mvn clean package -DskipTests'
+                sh "mvn clean deploy -s ${MAVEN_SETTINGS} -DskipTests"
             }
         }
         stage('Build Docker Image') {
@@ -70,5 +71,14 @@ pipeline {
                     """
                 }
             }
+        }
+    }
+    post {
+        success {
+            echo 'Pipeline completed successfully!'
+        }
+        failure {
+            echo 'Pipeline failed. Please check the logs for details.'
+        }
     }
 }
