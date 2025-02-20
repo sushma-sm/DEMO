@@ -5,8 +5,9 @@ metadata:
 spec:
   selector:
     app: nginx
-  type: LoadBalancer
+  type: NodePort
   ports:
   - protocol: TCP
     port: 80
     targetPort: 80
+    nodePort: 30090  # Must be between 30000-32767
