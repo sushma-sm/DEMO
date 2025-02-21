@@ -7,11 +7,12 @@ spec:
   interval: 5m
   chart:
     spec:
-      chart: nginx
+      chart: nginx  # Ensure this is just the chart name
+      version: 19.0.0  # Specify a version (or remove this line to get the latest)
       sourceRef:
         kind: HelmRepository
         name: my-helm-repo
-        namespace: flux-system  # Ensure this is set correctly
+        namespace: flux-system  # Ensure the correct namespace is referenced
   values:
     service:
       type: NodePort
