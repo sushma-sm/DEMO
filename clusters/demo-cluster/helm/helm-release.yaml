@@ -1,0 +1,16 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: my-app
+  namespace: demo-cluster
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: nginx
+      sourceRef:
+        kind: HelmRepository
+        name: my-helm-repo
+  values:
+    service:
+      type: NodePort
