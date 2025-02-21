@@ -4,9 +4,11 @@ metadata:
   name: demo-app-service
   namespace: demo-cluster
 spec:
+  type: NodePort
   selector:
     app: demo-app
   ports:
     - protocol: TCP
       port: 80
       targetPort: 80
+      nodePort: 30080  # Choose a port between 30000-32767
