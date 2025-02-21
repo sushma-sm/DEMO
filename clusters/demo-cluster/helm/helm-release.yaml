@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: nginx
-      version: 15.0.0  # Change to an older version that is not OCI-based
+      version: 15.0.0 # Change to an older version that is not OCI-based
       sourceRef:
         kind: HelmRepository
         name: my-helm-repo
@@ -16,3 +16,5 @@ spec:
   values:
     service:
       type: NodePort
+    image:
+      tag: build-001
