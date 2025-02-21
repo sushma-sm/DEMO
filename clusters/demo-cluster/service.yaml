@@ -4,11 +4,10 @@ metadata:
   name: demo-app-service
   namespace: demo-cluster
 spec:
-  type: NodePort  # Keep NodePort, but remove nodePort field
+  type: NodePort  
   selector:
     app: demo-app
   ports:
     - protocol: TCP
       port: 80
       targetPort: 80
-
