@@ -17,11 +17,11 @@ pipeline {
                 }
             }
         }
-        stage('Build and Deploy to Nexus') {
+        stage('Build') {
             steps {
                 script {
                     dir('workspace') {
-                        sh "mvn clean deploy -s ${env.MAVEN_SETTINGS} -DskipTests"
+                        sh "mvn clean package -s ${env.MAVEN_SETTINGS} -DskipTests"
                     }
                 }
             }
