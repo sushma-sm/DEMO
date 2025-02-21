@@ -11,6 +11,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: my-helm-repo
+        namespace: flux-system  # Ensure this is set correctly
   values:
     service:
       type: NodePort
