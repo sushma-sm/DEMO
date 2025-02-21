@@ -4,7 +4,7 @@ metadata:
   name: demo-app
   namespace: demo-cluster
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: demo-app
