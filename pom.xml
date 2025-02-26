@@ -24,6 +24,10 @@
       <id>nexus</id>
       <url>http://35.208.219.85:8081/repository/maven-releases-sm/</url>
     </repository>
+    <repository>
+      <id>gar-repo</id>
+      <url>artifactregistry://us-central1-maven.pkg.dev/devops-practice-sm/maven-releases</url>
+    </repository>
   </distributionManagement>
 
   <dependencies>
