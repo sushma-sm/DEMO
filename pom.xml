@@ -19,13 +19,7 @@
     <java.version>17</java.version>
   </properties>
 
-  <!-- ✅ Keep Nexus in distributionManagement -->
-  <distributionManagement>
-    <repository>
-      <id>nexus</id>
-      <url>http://35.208.219.85:8081/repository/maven-releases-sm/</url>
-    </repository>
-  </distributionManagement>
+ 
 
   <!-- ✅ Move Google Artifact Registry (GAR) to repositories -->
   <repositories>
