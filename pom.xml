@@ -22,7 +22,7 @@
   <distributionManagement>
     <repository>
       <id>nexus</id>
-      <url>http://34.44.247.164:8081/repository/maven-releases-sm/</url>
+      <url>http://35.208.219.85:8081/repository/maven-releases-sm/</url>
     </repository>
   </distributionManagement>
 
