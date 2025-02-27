@@ -27,13 +27,13 @@ jobs:
           timeout: "5m"
 
       - name: Pull Docker Image
-        run: docker pull sushmamounika/my-repo-sm:trivy || echo "Image not found"
+        run: docker pull sushmamounika/my-repo-sm:latest || echo "Image not found"
 
       - name: Run Trivy Image Scan
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: "image"
-          image-ref: "sushmamounika/my-repo-sm:trivy"
+          image-ref: "sushmamounika/my-repo-sm:latest"
           exit-code: "1"
           severity: "CRITICAL"
           ignore-unfixed: true
