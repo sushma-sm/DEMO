@@ -18,10 +18,11 @@
 
   <properties>
     <java.version>17</java.version>
-    <logback.version>1.5.13</logback.version>  <!-- 🔹 Fixed Logback version -->
-    <spring.version>6.1.14</spring.version>   <!-- 🔹 Updated Spring version -->
-    <tomcat.version>10.1.34</tomcat.version>  <!-- 🔹 Fixed Tomcat vulnerabilities -->
+    <logback.version>1.5.13</logback.version>  <!-- Fixed Logback version -->
+    <spring.version>6.1.14</spring.version>   <!-- Updated Spring version -->
+    <tomcat.version>10.1.34</tomcat.version>  <!-- Fixed Tomcat vulnerabilities -->
   </properties>
+
 
   <dependencies>
     <!-- Spring Boot Starter Web -->
