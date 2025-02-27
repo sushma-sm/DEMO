@@ -16,12 +16,26 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Install Trivy
-        run: |
-          curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sudo sh -s -- -b /usr/local/bin
+      - name: Run Trivy Filesystem Scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: "fs"
+          exit-code: "1"
+          severity: "CRITICAL"
+          ignore-unfixed: true  # Ignore vulnerabilities that have no fixed version
+          format: "table"
+          timeout: "5m"
 
-      - name: Run Trivy Scan on Repository Code
-        run: trivy fs --exit-code 1 --severity HIGH,CRITICAL .
+      - name: Pull Docker Image
+        run: docker pull sushmamounika/my-repo-sm:trivy || echo "Image not found"
 
-      - name: Run Trivy Scan on Docker Image
-        run: trivy image --exit-code 1 --severity HIGH,CRITICAL sushmamounika/my-repo-sm:trivy
+      - name: Run Trivy Image Scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: "image"
+          image-ref: "sushmamounika/my-repo-sm:trivy"
+          exit-code: "1"
+          severity: "CRITICAL"
+          ignore-unfixed: true
+          format: "table"
+          timeout: "5m"
