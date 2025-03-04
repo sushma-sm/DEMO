@@ -1,25 +1,13 @@
-replicaCount: 1
+replicaCount: 2
 
 image:
-  repository: nginx
+  repository: sushmamounika/my-repo-sm  # Updated to your correct Docker repo
   tag: latest
   pullPolicy: IfNotPresent
 
 service:
-  name: demo-app-service
-  type: NodePort  # Change to LoadBalancer if using GKE
+  type: LoadBalancer
   port: 80
   targetPort: 80
-  nodePort: 30080  # Required only for NodePort type
 
-namespace: demo-cluster
-
-deployment:
-  name: demo-app
-  replicas: 1
-  labels:
-    app: demo-app
-  container:
-    name: demo-app
-    image: nginx:latest
-    containerPort: 80
+namespace: autopilot-cluster-sm  # Your GKE Namespace
