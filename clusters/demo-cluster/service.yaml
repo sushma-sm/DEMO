@@ -2,13 +2,15 @@ apiVersion: v1
 kind: Service
 metadata:
   name: demo-app-service
-  namespace: demo-cluster
+  namespace: demo-cluster  # Ensure this namespace exists
+  labels:
+    app: demo-app  # Optional, but useful for organization
 spec:
-  type: NodePort  # Keep NodePort, but remove nodePort field
+  type: NodePort  # Change to LoadBalancer if deploying to Cloud
   selector:
-    app: demo-app
+    app: demo-app  # Ensure a matching deployment exists
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: 80
-
+      port: 80        # The port this service exposes
+      targetPort: 80  # The port in the container
+      nodePort: 30080 # (Only needed for NodePort type)
