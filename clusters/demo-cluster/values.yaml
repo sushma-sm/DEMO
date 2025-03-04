@@ -1,0 +1,25 @@
+replicaCount: 1
+
+image:
+  repository: nginx
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  name: demo-app-service
+  type: NodePort  # Change to LoadBalancer if using GKE
+  port: 80
+  targetPort: 80
+  nodePort: 30080  # Required only for NodePort type
+
+namespace: demo-cluster
+
+deployment:
+  name: demo-app
+  replicas: 1
+  labels:
+    app: demo-app
+  container:
+    name: demo-app
+    image: nginx:latest
+    containerPort: 80
