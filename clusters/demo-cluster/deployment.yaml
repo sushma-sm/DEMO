@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: demo-app-deployment
-  namespace: autopilot-cluster-sm  # Ensure this namespace exists in GKE
+  namespace: autopilot-cluster-sm
   labels:
     app: demo-app
 spec:
@@ -17,8 +17,22 @@ spec:
     spec:
       containers:
         - name: demo-app
-          image: "sushmamounika/my-repo-sm:latest"  # Updated Docker image repo
-          command: ["sleep", "3600"]
-          imagePullPolicy: IfNotPresent  # Ensures it doesn't pull unnecessarily
+          image: "sushmamounika/my-repo-sm:latest"  # Ensure image exists and is accessible
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80
+          command: ["java", "-jar", "/app.jar"]  # Ensure this is the correct path
+          livenessProbe:  # Ensures container is healthy
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          readinessProbe:  # Ensures the app is ready before serving traffic
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+      imagePullSecrets:
+        - name: regcred  # Required if using a private registry
