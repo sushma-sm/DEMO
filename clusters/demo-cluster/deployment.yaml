@@ -21,11 +21,7 @@ spec:
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80
-          command: ["java", "-jar", "/data/app.jar"]  # Ensure the jar is inside /data
-
-          volumeMounts:
-            - name: app-storage
-              mountPath: /data  # Mounts PVC to /data
+          command: ["java", "-jar", "app.jar"]  # Ensure app.jar is in the container
 
           resources:
             requests:
@@ -53,8 +49,3 @@ spec:
 
       imagePullSecrets:
         - name: regcred
-
-      volumes:
-        - name: app-storage
-          persistentVolumeClaim:
-            claimName: demo-app-pvc  # Ensure this PVC exists and is bound
