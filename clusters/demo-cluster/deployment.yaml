@@ -17,22 +17,35 @@ spec:
     spec:
       containers:
         - name: demo-app
-          image: "sushmamounika/my-repo-sm:latest"  # Ensure image exists and is accessible
+          image: "sushmamounika/my-repo-sm:latest"
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80
-          command: ["java", "-jar", "/app.jar"]  # Ensure this is the correct path
-          livenessProbe:  # Ensures container is healthy
+          command: ["java", "-jar", "/app.jar"]
+          
+          resources:  # Resource limits to prevent eviction
+            requests:
+              cpu: "250m"
+              memory: "512Mi"
+              ephemeral-storage: "500Mi"  # Minimum required storage
+            limits:
+              cpu: "500m"
+              memory: "1Gi"
+              ephemeral-storage: "1Gi"  # Max allowed storage to prevent eviction
+
+          livenessProbe:
             httpGet:
               path: /
               port: 80
             initialDelaySeconds: 5
             periodSeconds: 10
-          readinessProbe:  # Ensures the app is ready before serving traffic
+
+          readinessProbe:
             httpGet:
               path: /
               port: 80
             initialDelaySeconds: 5
             periodSeconds: 10
+
       imagePullSecrets:
         - name: regcred  # Required if using a private registry
