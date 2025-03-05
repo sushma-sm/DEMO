@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: demo-app-deployment
-  namespace: autopilot-cluster-sm
   labels:
     app: demo-app
 spec:
