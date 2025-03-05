@@ -21,8 +21,8 @@ spec:
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80
-          command: ["java", "-jar", "/app.jar"]
-          
+          command: ["java", "-jar", "/data/app.jar"]  # Updated path to store data in mounted volume
+
           resources:  # Resource limits to prevent eviction
             requests:
               cpu: "250m"
@@ -32,6 +32,10 @@ spec:
               cpu: "500m"
               memory: "1Gi"
               ephemeral-storage: "1Gi"  # Max allowed storage to prevent eviction
+
+          volumeMounts:
+            - name: app-storage
+              mountPath: /data  # This is where the application will store data
 
           livenessProbe:
             httpGet:
@@ -46,6 +50,11 @@ spec:
               port: 80
             initialDelaySeconds: 5
             periodSeconds: 10
+
+      volumes:
+        - name: app-storage
+          persistentVolumeClaim:
+            claimName: demo-app-pvc  # This binds the PVC to the pod
 
       imagePullSecrets:
         - name: regcred  # Required if using a private registry
