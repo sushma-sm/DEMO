@@ -1,7 +1,7 @@
 replicaCount: 2
 
 image:
-  repository: sushmamounika/my-repo-sm  # Updated to your correct Docker repo
+  repository: sushmamounika/my-repo-sm
   tag: latest
   pullPolicy: IfNotPresent
 
@@ -10,4 +10,4 @@ service:
   port: 80
   targetPort: 80
 
-namespace: autopilot-cluster-sm  # Your GKE Namespace
+namespace: autopilot-cluster-sm
