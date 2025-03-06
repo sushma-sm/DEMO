@@ -147,4 +147,4 @@ The Docker image is pushed to the following Docker Hub repository:
 
 Once the Docker container is running, you can access the application by navigating to `http://<your-server-ip>:8082` in your web browser.
 added k8s files in the code.
-
+testing trigger.
