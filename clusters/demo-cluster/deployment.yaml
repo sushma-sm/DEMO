@@ -1,34 +1,63 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: my-app-deployment
-  labels:
-    app: my-app
+  name: v1-deployment
 spec:
-  replicas: 3
+  replicas: 4
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
   selector:
     matchLabels:
-      app: my-app
+      app: canary
   template:
     metadata:
       labels:
-        app: my-app
+        app: canary
     spec:
       containers:
-        - name: my-app
-          image: "nasi101/tetris" 
-          ports:
-            - containerPort: 8080
+      - name: lgwm-image
+        image: gcr.io/google-samples/hello-app:1.0
+        ports:
+        - containerPort: 8080
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: v2-deployment
+spec:
+  replicas: 4
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: canary
+  template:
+    metadata:
+      labels:
+        app: canary
+    spec:
+      containers:
+      - name: lgwm-image
+        image: gcr.io/google-samples/hello-app:2.0
+        ports:
+        - containerPort: 8080
+
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: my-app-service12
+  name: canary-service
 spec:
+  type: LoadBalancer
   selector:
-    app: my-app
+    app: canary
   ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 8081
-  type: LoadBalancer  # Exposes the app to external traffic
+  - port: 80
+    targetPort: 8080
