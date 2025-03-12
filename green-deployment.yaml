@@ -19,3 +19,18 @@ spec:
         image: gcr.io/google-samples/hello-app:2.0  # Image for the green version (version 2.0)
         ports:
         - containerPort: 8080  # Port on which the container will listen
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: green-service  # The name of the service
+  labels:
+    app: green  # Label to identify the service version as "green"
+spec:
+  selector:
+    app: green  # Matches pods with the label "app: green"
+  ports:
+    - protocol: TCP
+      port: 80        # Exposed port of the service
+      targetPort: 8080  # Container port to forward to
+  type: LoadBalancer  # Exposes the service externally
