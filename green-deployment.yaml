@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: green-deployment  # The name of the deployment
+  labels:
+    app: green  # Label to identify the application version as "green"
+spec:
+  replicas: 4  # Number of pod replicas to maintain for high availability
+  selector:
+    matchLabels:
+      app: green  # Matches pods with the label "app: green" to this deployment
+  template:
+    metadata:
+      labels:
+        app: green  # Labels applied to the pod template for identification
+    spec:
+      containers:
+      - name: hello-app  # Name of the container
+        image: gcr.io/google-samples/hello-app:2.0  # Image for the green version (version 2.0)
+        ports:
+        - containerPort: 8080  # Port on which the container will listen
