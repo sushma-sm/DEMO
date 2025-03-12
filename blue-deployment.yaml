@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blue-deployment  # The name of the deployment to identify it within the cluster
+  labels:
+    app: blue  # Label to categorize and group this deployment
+
+spec:
+  replicas: 4  # Number of pod replicas to maintain at all times
+  selector:
+    matchLabels:
+      app: blue  # Ensures the deployment manages pods with this label
+
+  template:
+    metadata:
+      labels:
+        app: blue  # Label applied to pods created by this deployment
+
+    spec:
+      containers:
+      - name: hello-app  # Name of the container running inside the pod
+        image: gcr.io/google-samples/hello-app:1.0  # Docker image used for the application
+        ports:
+        - containerPort: 8080  # Exposes the container on port 8080 for incoming traffic
