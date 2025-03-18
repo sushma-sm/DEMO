@@ -1,18 +1,21 @@
 package com.example;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import static org.assertj.core.api.Assertions.assertThat;
 
-/**
- * Unit test for simple App.
- */
-public class AppTest {
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+class AppTest {
 
-    /**
-     * Rigorous Test :-)
-     */
+    @Autowired
+    private TestRestTemplate restTemplate;
+
     @Test
-    public void testApp() {
-        assertTrue(true, "This test should always pass.");
+    void helloEndpointTest() {
+        String response = this.restTemplate.getForObject("/", String.class);
+        assertThat(response).contains("Hi Sushma!");
     }
 }
