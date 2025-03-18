@@ -18,6 +18,9 @@
 
     <properties>
         <java.version>17</java.version>
+        <sonar.projectKey>demo</sonar.projectKey>
+        <sonar.host.url>http://34.122.156.94:9000</sonar.host.url>
+        <sonar.login>sqa_fad0bae4b031597b0e780d7d6b57f7a195e4b1fe</sonar.login>
     </properties>
 
     <dependencies>
@@ -138,14 +141,12 @@
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.10</version>
                 <executions>
-                    <!-- Prepare agent before tests -->
                     <execution>
                         <id>prepare-agent</id>
                         <goals>
                             <goal>prepare-agent</goal>
                         </goals>
                     </execution>
-                    <!-- Generate report after tests -->
                     <execution>
                         <id>report</id>
                         <phase>verify</phase>
@@ -154,6 +155,13 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+
+            <!-- SonarQube Maven Plugin -->
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>3.9.1.2184</version>
             </plugin>
 
             <!-- Enforcer Plugin for Dependency Management -->
