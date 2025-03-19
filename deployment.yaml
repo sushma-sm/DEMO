@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
         - name: my-app-container
-          image: my-app-image:latest  
+          image: sushmamounika/my-repo-sm:latest  
           ports:
             - containerPort: 8080
