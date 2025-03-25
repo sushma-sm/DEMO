@@ -2,9 +2,12 @@ provider "google" {
   project = "devops-practice-sm"
   region  = "us-central1"
 }
-terraform {
-  backend "gcs" {
-    bucket = "my-terraform-bucket-c22600d02c44fc"
-    prefix = "terraform/state"
+
+resource "google_storage_bucket" "terraform_state" {
+  name          = "my-terraform-bucket-sm1"
+  location      = "US"
+  storage_class = "STANDARD"
+  versioning {
+    enabled = true
   }
 }
