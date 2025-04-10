@@ -1,3 +1,27 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-index-html
+  namespace: default
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <title>My App Frontend</title>
+      <style>
+        body { font-family: Arial, sans-serif; background: #f4f4f4; text-align: center; margin-top: 100px; }
+        h1 { color: #333; }
+      </style>
+    </head>
+    <body>
+      <h1>Welcome to My App!</h1>
+      <p>Deployed via Kubernetes using the Docker image <strong>sushmamounika/my-repo-sm:latest</strong></p>
+    </body>
+    </html>
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -15,6 +39,27 @@ spec:
     spec:
       containers:
         - name: my-app-container
-          image: sushmamounika/my-repo-sm:latest  
+          image: sushmamounika/my-repo-sm:latest
           ports:
             - containerPort: 8080
+          volumeMounts:
+            - name: html-volume
+              mountPath: /usr/share/nginx/html  # Change this path if your app serves static files from a different path
+      volumes:
+        - name: html-volume
+          configMap:
+            name: app-index-html
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-app-service
+  namespace: default
+spec:
+  selector:
+    app: my-app
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
