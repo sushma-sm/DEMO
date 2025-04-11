@@ -57,6 +57,7 @@ metadata:
   namespace: default
 spec:
   selector:
+  - name: http
     app: my-app
   type: LoadBalancer
   ports:
