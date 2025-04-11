@@ -1,0 +1,17 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: myapp-servicemonitor
+  labels:
+    release: monitoring  # Must match your Prometheus release name (usually `monitoring`)
+spec:
+  selector:
+    matchLabels:
+      app: myapp          # Must match the label on your Service
+  namespaceSelector:
+    matchNames:
+      - default           # Namespace where your service is running
+  endpoints:
+    - port: metrics       # Port name from the Service
+      path: /metrics      # Path your app exposes metrics on
+      interval: 15s
