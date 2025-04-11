@@ -21,6 +21,7 @@ data:
       <p>Deployed via Kubernetes using the Docker image <strong>sushmamounika/my-repo-sm:latest</strong></p>
     </body>
     </html>
+
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -44,11 +45,12 @@ spec:
             - containerPort: 8080
           volumeMounts:
             - name: html-volume
-              mountPath: /usr/share/nginx/html  # Change this path if your app serves static files from a different path
+              mountPath: /usr/share/nginx/html
       volumes:
         - name: html-volume
           configMap:
             name: app-index-html
+
 ---
 apiVersion: v1
 kind: Service
@@ -57,10 +59,10 @@ metadata:
   namespace: default
 spec:
   selector:
-  - name: http
-    app: my-app
+    app: my-app               
   type: LoadBalancer
   ports:
-    - protocol: TCP
+    - name: http              #  Required for ServiceMonitor
+      protocol: TCP
       port: 80
       targetPort: 8080
