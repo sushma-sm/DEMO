@@ -13,5 +13,5 @@ spec:
       - default           # Namespace where your service is running
   endpoints:
     - port: metrics       # Port name from the Service
-      path: /metrics      # Path your app exposes metrics on
+      path: /actuator/prometheus     # Path your app exposes metrics on
       interval: 15s
