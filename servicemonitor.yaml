@@ -3,15 +3,15 @@ kind: ServiceMonitor
 metadata:
   name: myapp-servicemonitor
   labels:
-    release: monitoring  # Must match your Prometheus release name (usually `monitoring`)
+    release: monitoring
 spec:
   selector:
     matchLabels:
-      app: myapp          # Must match the label on your Service
+      app: my-app         # match Service label
   namespaceSelector:
     matchNames:
-      - default           # Namespace where your service is running
+      - default
   endpoints:
-    - port: metrics       # Port name from the Service
-      path: /actuator/prometheus     # Path your app exposes metrics on
+    - port: http          #  match port name in Service
+      path: /actuator/prometheus
       interval: 15s
