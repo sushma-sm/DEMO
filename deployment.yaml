@@ -73,22 +73,3 @@ spec:
       port: 80                # External port for accessing the service
       targetPort: 8080        # Target port exposed by the container in the pod
 
----
-# ServiceMonitor for Prometheus scraping configuration
-apiVersion: monitoring.coreos.com/v1
-kind: ServiceMonitor
-metadata:
-  name: myapp-servicemonitor
-  labels:
-    release: monitoring       # Label to match Prometheus configuration if needed
-spec:
-  selector:
-    matchLabels:
-      app: my-app             # Match Service label for scraping metrics from pods/services
-  namespaceSelector:
-    matchNames:
-      - default               # Namespace where the service resides (default in this case)
-  endpoints:
-    - port: http              # Match port name in Service definition above (http)
-      path: /actuator/prometheus # Path to scrape metrics from pods/services (Spring Boot actuator)
-      interval: 15s           # Scraping interval for Prometheus metrics collection (15 seconds)
