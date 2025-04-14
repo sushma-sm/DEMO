@@ -3,15 +3,15 @@ kind: ServiceMonitor
 metadata:
   name: myapp-servicemonitor
   labels:
-    release: monitoring
+    release: monitoring       # Label to match Prometheus configuration if needed
 spec:
   selector:
     matchLabels:
-      app: my-app         # match Service label
+      app: my-app             # Match Service label for scraping metrics from pods/services
   namespaceSelector:
     matchNames:
-      - default
+      - default               # Namespace where the service resides (default in this case)
   endpoints:
-    - port: http          #  match port name in Service
-      path: /actuator/prometheus
-      interval: 15s
+    - port: http              # Match port name in Service definition above (http)
+      path: /actuator/prometheus # Path to scrape metrics from pods/services (Spring Boot actuator)
+      interval: 15s           # Scraping interval for Prometheus metrics collection (15 seconds)
