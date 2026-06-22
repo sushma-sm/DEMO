@@ -1,0 +1,164 @@
+# Git Commands and Usage
+
+## Repository Setup
+
+- Initialize a new repo:
+  ```bash
+  git init
+  ```
+
+- Clone an existing repo:
+  ```bash
+  git clone <repo-url>
+  ```
+
+## Basic Workflow
+
+- Check repository status:
+  ```bash
+  git status
+  ```
+
+- Stage files for commit:
+  ```bash
+  git add <file>
+  git add .
+  ```
+
+- Commit staged changes:
+  ```bash
+  git commit -m "Describe your change"
+  ```
+
+- View commit history:
+  ```bash
+  git log --oneline --graph --decorate --all
+  ```
+
+## Branching
+
+- List branches:
+  ```bash
+  git branch
+  ```
+
+- Create a branch:
+  ```bash
+  git branch <branch-name>
+  ```
+
+- Switch branches:
+  ```bash
+  git checkout <branch-name>
+  ```
+
+- Create and switch in one step:
+  ```bash
+  git checkout -b <branch-name>
+  ```
+
+- Merge another branch into the current branch:
+  ```bash
+  git merge <branch-name>
+  ```
+
+## Remote Repositories
+
+- Show remotes:
+  ```bash
+  git remote -v
+  ```
+
+- Add a remote:
+  ```bash
+  git remote add origin <repo-url>
+  ```
+
+- Push to remote:
+  ```bash
+  git push origin <branch-name>
+  ```
+
+- Pull changes from remote:
+  ```bash
+  git pull origin <branch-name>
+  ```
+
+- Fetch remote changes without merging:
+  ```bash
+  git fetch origin
+  ```
+
+## GitHub Workflow
+
+1. Create a repository on GitHub.
+2. Add the GitHub repo as a remote:
+   ```bash
+   git remote add origin https://github.com/<username>/<repo>.git
+   ```
+3. Stage your changes:
+   ```bash
+   git add .
+   ```
+4. Commit your work:
+   ```bash
+   git commit -m "Add description of your changes"
+   ```
+5. Push to GitHub:
+   ```bash
+   git push -u origin <branch-name>
+   ```
+
+> Use `-u` on the first push to set the upstream branch so future pushes can use `git push`.
+
+## Undo and Fix
+
+- Unstage a file:
+  ```bash
+  git reset HEAD <file>
+  ```
+
+- Discard local changes in a file:
+  ```bash
+  git checkout -- <file>
+  ```
+
+- Revert a commit by creating a new commit:
+  ```bash
+  git revert <commit-hash>
+  ```
+
+- Reset to a previous commit (use with care):
+  ```bash
+  git reset --hard <commit-hash>
+  ```
+
+## Helpful Commands
+
+- Show differences for unstaged changes:
+  ```bash
+  git diff
+  ```
+
+- Show differences for staged changes:
+  ```bash
+  git diff --staged
+  ```
+
+- Stash changes temporarily:
+  ```bash
+  git stash
+  git stash pop
+  ```
+
+- See the last commit details:
+  ```bash
+  git show
+  ```
+
+## Tips
+
+- Use descriptive commit messages.
+- Keep branches small and focused.
+- Pull frequently to stay up to date with shared work.
+- Use `git status` often to avoid surprises.
